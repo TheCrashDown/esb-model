@@ -1,13 +1,7 @@
 from fastapi import FastAPI
 
-from models import Message
-
-from datetime import datetime
+from endpoints import api_router
 
 app = FastAPI()
 
-@app.get("/")
-def helloworld():
-    Message.create(content=datetime.now())
-
-    return [m for m in Message.select().dicts()]
+app.include_router(api_router, prefix="", tags=["Base API"])
