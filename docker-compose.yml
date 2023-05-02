@@ -9,8 +9,22 @@ services:
     environment:
       - CHOKIDAR_USEPOLLING=true
 
+  db:
+    container_name: esb-postgres
+    image: postgres:15
+    command: -p 1234
+    expose:
+      - 1234
+    env_file:
+      - .env-deploy
+    restart: unless-stopped
+
   backend:
     build: backend
     ports:
       - 8000:8000
     container_name: esb-backend
+    env_file:
+      - .env-deploy
+    depends_on:
+      - db
