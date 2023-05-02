@@ -8,3 +8,9 @@ services:
     container_name: esb-frontend
     environment:
       - CHOKIDAR_USEPOLLING=true
+
+  backend:
+    build: backend
+    ports:
+      - 8000:8000
+    container_name: esb-backend
