@@ -1,0 +1,13 @@
+.service-list {
+    background-color: rgba(236, 203, 113, 0.322);
+    display: flex;
+    flex-direction: column;
+
+    border: 1px solid rgba(0, 0, 0, 1);
+
+    max-width: 300px;
+}
+
+.title {
+    margin: 10px;
+}
