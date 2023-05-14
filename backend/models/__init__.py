@@ -9,6 +9,7 @@ class Client(BaseModel):
 
     id = peewee.AutoField(primary_key=True)
     address = peewee.TextField(null=False)
+    name = peewee.TextField(null=True)
 
 
 Client.create_table()
@@ -21,6 +22,7 @@ class Message(BaseModel):
     id = peewee.AutoField(primary_key=True)
     content = peewee.TextField()
     sender = peewee.ForeignKeyField(model=Client, to_field="id")
+    format = peewee.TextField(null=False)
 
 
 Message.create_table()
