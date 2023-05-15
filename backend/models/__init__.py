@@ -15,6 +15,16 @@ class Client(BaseModel):
 Client.create_table()
 
 
+class Queue(BaseModel):
+    class Meta:
+        db_table = "queue"
+
+    id = peewee.AutoField(primary_key=True)
+
+
+Queue.create_table()
+
+
 class Message(BaseModel):
     class Meta:
         db_table = "message"
@@ -23,6 +33,9 @@ class Message(BaseModel):
     content = peewee.TextField()
     sender = peewee.ForeignKeyField(model=Client, to_field="id")
     format = peewee.TextField(null=False)
+    quere = peewee.ForeignKeyField(
+        model=Queue, to_field="id", backref="messages", null=True
+    )
 
 
 Message.create_table()
