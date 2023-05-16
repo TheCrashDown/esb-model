@@ -11,7 +11,7 @@ const ServiceList = ({ data }) => {
             <ul >{ 
                 data.map((item) => {
                     const { id, title, address } = item
-                    return <ServiceCard key={id} 
+                    return <ServiceCard key={id}
                                 title={title} 
                                 address={address}/>
                 }) 
