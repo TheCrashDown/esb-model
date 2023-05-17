@@ -6,7 +6,7 @@ import './service-card.css'
 
 const ServiceCard = (cardInfo) => {
 
-    const { title, address, x, y, fromWorkspace, conStart } = cardInfo
+    const { title, address, x, y, fromWorkspace, conStart, conEnd } = cardInfo
 
     function dragStartHadler(e) {
         e.dataTransfer.setData('item', JSON.stringify(cardInfo))
@@ -24,7 +24,11 @@ const ServiceCard = (cardInfo) => {
     function onIconClick(e) {
         console.log("arrow clicked")
         conStart()
+    }
 
+    function onCardClick(e) {
+        console.log("card clicked")
+        conEnd()
     }
 
     let positionOnWorkspace = {}
@@ -39,6 +43,7 @@ const ServiceCard = (cardInfo) => {
             draggable={true}
             onDragStart={(e) => dragStartHadler(e)} 
             onDragEnd={(e) => dragEndHadler(e)} 
+            onClick={onCardClick}
             className='card'>
             <div className='info'>
                 <span className='text'>{title}</span>

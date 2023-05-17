@@ -28,27 +28,16 @@ export default class App extends React.Component {
       ],
 
       config: {},
-
-      currentConnecting : -1
     }
 
-    onConnectingStart = (id) => {
-      console.log(id)
-      // this.setState(() => {
-      //   return {currentConnecting: id}
-      // })
-    }
 
-    onConnectingEnd = (id) => {
-      
-    }
 
 
     render() {
       return (
           <div className="app"> 
               <ServiceList data={this.state.services}/>
-              <Workspace conStart={this.onConnectingStart}/>
+              <Workspace/>
           </div>
       )
   }
