@@ -22,27 +22,32 @@ const ServiceCard = (cardInfo) => {
         e.preventDefault()
     }
 
+    function onIconClick(e) {
+        console.log(123)
+    }
+
+    let style = {}
+
     if (x !== undefined && y !== undefined) {
-        return (
-            <div style={{position:'absolute', left:x -35, top:y - 50}}
-                draggable={true}
-                onDragStart={(e) => dragStartHadler(e)} 
-                onDragEnd={(e) => dragEndHadler(e)} 
-                className='card'>
-                <span className='text'>{title}</span>
-                <span className='text'>{address}</span>
-            </div>
-        )
+        style = {position:'absolute', left:x -35, top:y - 50}
     }
     
     return (
         <div
+            style={style}
             draggable={true}
             onDragStart={(e) => dragStartHadler(e)} 
             onDragEnd={(e) => dragEndHadler(e)} 
             className='card'>
-            <span className='text'>{title}</span>
-            <span className='text'>{address}</span>
+            <div className='info'>
+                <span className='text'>{title}</span>
+                <span className='text'>{address}</span>
+            </div>
+            <div className='icon'>
+                <i 
+                    onClick={(e) => onIconClick(e)}
+                    className="bi bi-arrow-right-square-fill" />
+            </div>
         </div>
     )
 }
