@@ -7,31 +7,50 @@ import Workspace from '../workspace'
 
 
 
-const App = () => {    
-    const data = [
-      {
-        "id": 11,
-        "title": "serv1",
-        "address": "1.2.3.4"
-      },
-      {
-        "id": 5,
-        "title": "serv2",
-        "address": "2.3.4.6"
-      },
-      {
-        "id": 72,
-        "title": "serv3",
-        "address": "123.4.2.5"
-      }
-    ]
-    return (
-        <div className="app"> 
-            <ServiceList data={data}/>
-            <Workspace />
-        </div>
-    )
+export default class App extends React.Component { 
+    state = {
+      services : [
+        {
+          "id": 11,
+          "title": "serv1",
+          "address": "1.2.3.4"
+        },
+        {
+          "id": 5,
+          "title": "serv2",
+          "address": "2.3.4.6"
+        },
+        {
+          "id": 72,
+          "title": "serv3",
+          "address": "123.4.2.5"
+        }
+      ],
+
+      config: {},
+
+      currentConnecting : -1
+    }
+
+    onConnectingStart = (id) => {
+      console.log(id)
+      // this.setState(() => {
+      //   return {currentConnecting: id}
+      // })
+    }
+
+    onConnectingEnd = (id) => {
+      
+    }
+
+
+    render() {
+      return (
+          <div className="app"> 
+              <ServiceList data={this.state.services}/>
+              <Workspace conStart={this.onConnectingStart}/>
+          </div>
+      )
+  }
     
 }
-
-export default App

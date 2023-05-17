@@ -5,7 +5,7 @@ import ServiceCard from '../service-card';
 
 
 
-const Workspace = () => {
+const Workspace = ({ conStart }) => {
 
     const [items, setItems] = useState([])
     const [nextId, setNextId] = useState(100)
@@ -33,10 +33,7 @@ const Workspace = () => {
             console.log(item)
             setItems([...items, item])
         } else {
-            console.log(item.id)
-            console.log(items)
             let idx_deleted = items.findIndex(i => i.id === item.id)
-            console.log(idx_deleted)
             const currItems = [...items.slice(0, idx_deleted),
                                ...items.slice(idx_deleted + 1)]
             item.id = incId()
@@ -62,7 +59,9 @@ const Workspace = () => {
                                                 address={item.address}
                                                 x={item.x} 
                                                 y={item.y}
-                                                fromWorkspace={true}/>)}
+                                                fromWorkspace={true}
+                                                conStart={() => conStart(item.id)}
+                                                />)}
             </div>
 
         </div>

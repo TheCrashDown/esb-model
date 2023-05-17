@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 import './service-card.css'
 
@@ -6,10 +6,9 @@ import './service-card.css'
 
 const ServiceCard = (cardInfo) => {
 
-    const { title, address, x, y, fromWorkspace } = cardInfo
+    const { title, address, x, y, fromWorkspace, conStart } = cardInfo
 
     function dragStartHadler(e) {
-        console.log(9)
         e.dataTransfer.setData('item', JSON.stringify(cardInfo))
         if (fromWorkspace) {
             e.dataTransfer.dropEffect="move"
@@ -23,18 +22,20 @@ const ServiceCard = (cardInfo) => {
     }
 
     function onIconClick(e) {
-        console.log(123)
+        console.log("arrow clicked")
+        conStart()
+
     }
 
-    let style = {}
+    let positionOnWorkspace = {}
 
     if (x !== undefined && y !== undefined) {
-        style = {position:'absolute', left:x -35, top:y - 50}
+        positionOnWorkspace = {position:'absolute', left:x -35, top:y - 50}
     }
     
     return (
         <div
-            style={style}
+            style={positionOnWorkspace}
             draggable={true}
             onDragStart={(e) => dragStartHadler(e)} 
             onDragEnd={(e) => dragEndHadler(e)} 
@@ -45,7 +46,7 @@ const ServiceCard = (cardInfo) => {
             </div>
             <div className='icon'>
                 <i 
-                    onClick={(e) => onIconClick(e)}
+                    onClick={onIconClick}
                     className="bi bi-arrow-right-square-fill" />
             </div>
         </div>
