@@ -4,18 +4,24 @@ import './service-card.css'
 
 
 
-const ServiceCard = ({ title, address, x, y }) => {
+const ServiceCard = (cardInfo) => {
+
+    const { title, address, x, y, fromWorkspace } = cardInfo
+
     function dragStartHadler(e) {
         console.log(9)
-        e.dataTransfer.setData('item', JSON.stringify({ title, address }))
-        e.dataTransfer.dropEffect="copy"
+        e.dataTransfer.setData('item', JSON.stringify(cardInfo))
+        if (fromWorkspace) {
+            e.dataTransfer.dropEffect="move"
+        } else {
+            e.dataTransfer.dropEffect="copy"
+        }
     }
     
     function dragEndHadler(e) {
-    
+        e.preventDefault()
     }
 
-    console.log({ title, address, x, y })
     if (x !== undefined && y !== undefined) {
         return (
             <div style={{position:'absolute', left:x -35, top:y - 50}}

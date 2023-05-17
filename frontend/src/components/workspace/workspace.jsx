@@ -7,7 +7,7 @@ import ServiceCard from '../service-card';
 
 const Workspace = () => {
 
-    const [items, setItems] = useState([{id:1, title:"s4", address:"123"}])
+    const [items, setItems] = useState([])
     const [nextId, setNextId] = useState(100)
 
     function incId() {
@@ -18,22 +18,33 @@ const Workspace = () => {
 
     function dragOverHadler(e) {
         e.preventDefault()
-        console.log(1)
-        e.dataTransfer.dropEffect = "copy";
+    }
+
+    function dragLeaveHadler(e) {
 
     }
-    function dragLeaveHadler(e) {
-        console.log(2)
-    
-    }
+
     function dropHadler(e) {
-        console.log(3)
         const item = JSON.parse(e.dataTransfer.getData("item"))
-        item.id = incId()
-        item.x = e.clientX
-        item.y = e.clientY
-        console.log(item)
-        setItems([...items, item])
+        if (!item.fromWorkspace) {
+            item.id = incId()
+            item.x = e.clientX
+            item.y = e.clientY
+            console.log(item)
+            setItems([...items, item])
+        } else {
+            console.log(item.id)
+            console.log(items)
+            let idx_deleted = items.findIndex(i => i.id === item.id)
+            console.log(idx_deleted)
+            const currItems = [...items.slice(0, idx_deleted),
+                               ...items.slice(idx_deleted + 1)]
+            item.id = incId()
+            item.x = e.clientX
+            item.y = e.clientY
+            console.log(item)
+            setItems([...currItems, item])
+        }
     }
 
     return (
@@ -46,10 +57,12 @@ const Workspace = () => {
 
             <div>
                 {items.map(item => <ServiceCard key={item.id} 
+                                                id={item.id}
                                                 title={item.title} 
                                                 address={item.address}
                                                 x={item.x} 
-                                                y={item.y}/>)}
+                                                y={item.y}
+                                                fromWorkspace={true}/>)}
             </div>
 
         </div>

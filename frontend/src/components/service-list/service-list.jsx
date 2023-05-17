@@ -12,8 +12,10 @@ const ServiceList = ({ data }) => {
                 data.map((item) => {
                     const { id, title, address } = item
                     return <ServiceCard key={id}
+                                id={id}
                                 title={title} 
-                                address={address}/>
+                                address={address}
+                                fromWorkspace={false}/>
                 }) 
             }</ul>
         </div>
