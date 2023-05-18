@@ -2,6 +2,7 @@ import React from 'react';
 
 import './workspace.css'
 import ServiceCard from '../service-card';
+import Util from '../util';
 
 
 
@@ -94,45 +95,64 @@ export default class Workspace extends React.Component {
         console.log(this.state.lines)
     }
 
+    saveConfig = () => {
+        console.log("save config")
+        fetch("http://127.0.0.1:8000/save_config",
+            {
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ "a": 1, "b": 2, "c": 3 })
+            }
+        )
+            .then(res => res.json())
+            .then(res => console.log(res));
+    }
+
     render() {
         return (
-            <div
-                onDragLeave={(e) => this.dragLeaveHadler(e)}
-                onDragOver={(e) => this.dragOverHadler(e)}
-                onDrop={(e) => this.dropHadler(e)}
-                className='space'>
-                <h2 className='text'>Workspace</h2>
+            <div className="all">
+                <div
+                    onDragLeave={(e) => this.dragLeaveHadler(e)}
+                    onDragOver={(e) => this.dragOverHadler(e)}
+                    onDrop={(e) => this.dropHadler(e)}
+                    className='space'>
+                    <h2 className='text'>Workspace</h2>
 
-                <div>
-                    {this.state.items.map(item => <ServiceCard key={item.id}
-                        id={item.id}
-                        title={item.title}
-                        address={item.address}
-                        x={item.x}
-                        y={item.y}
-                        fromWorkspace={true}
-                        conStart={() => this.onConnectingStart(
-                            item.id, item.x, item.y)}
-                        conEnd={() => this.onConnectingEnd(item.id, item.x, item.y)}
-                    />)}
+                    <div>
+                        {this.state.items.map(item => <ServiceCard key={item.id}
+                            id={item.id}
+                            title={item.title}
+                            address={item.address}
+                            x={item.x}
+                            y={item.y}
+                            fromWorkspace={true}
+                            conStart={() => this.onConnectingStart(
+                                item.id, item.x, item.y)}
+                            conEnd={() => this.onConnectingEnd(item.id, item.x, item.y)}
+                        />)}
+                    </div>
+
+
+                    <div className="lines">
+                        {this.state.lines.map(line =>
+                            <div
+                                key={line.id}
+                                className="line"
+                                style={{
+                                    position: 'absolute',
+                                    width: line.length,
+                                    left: line.x,
+                                    top: line.y,
+                                    transform: "rotate(" + line.deg + "deg)"
+                                }} />)}
+
+                    </div>
+
                 </div>
-
-
-                <div className="lines">
-                    {this.state.lines.map(line =>
-                        <div
-                            key={line.id}
-                            className="line"
-                            style={{
-                                position: 'absolute',
-                                width: line.length,
-                                left: line.x,
-                                top: line.y,
-                                transform: "rotate(" + line.deg + "deg)"
-                            }} />)}
-
-                </div>
-
+                <Util saveConfig={this.saveConfig} />
             </div>
         )
     }

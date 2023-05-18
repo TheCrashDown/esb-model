@@ -22,7 +22,7 @@ def test():
 
     # brocker.add_client(c)
     Client.create(address="1.0.1.1")
-    c = Client.select().where(Client.address=="1.0.1.1")
+    c = Client.select().where(Client.address == "1.0.1.1")
 
     if not c.exists():
         return "null222"
@@ -30,3 +30,8 @@ def test():
     return {
         "msg": c.get().address,
     }
+
+
+@api_router.post("/save_config")
+def save_config(config: dict):
+    return {"config": config}

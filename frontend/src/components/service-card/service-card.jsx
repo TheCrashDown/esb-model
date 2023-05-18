@@ -52,7 +52,7 @@ const ServiceCard = (cardInfo) => {
             <div className='icon'>
                 <h3
                     onClick={onIconClick}
-                    className="bi bi-arrow-right-square-fill" />
+                    className="bi bi-arrow-right-square-fill" > </h3>
             </div>
         </div>
     )
