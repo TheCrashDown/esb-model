@@ -13,7 +13,8 @@ export default class Workspace extends React.Component {
         nextId: 100,
         lines: [],
         connecting: 0,
-        currentConnecting: {}
+        currentConnecting: {},
+        config: []
     }
 
     incId = () => {
@@ -58,7 +59,7 @@ export default class Workspace extends React.Component {
 
     onConnectingStart = (id, x1, y1) => {
         console.log("start")
-        console.log(id, x1, y1)
+        // console.log(id, x1, y1)
         this.setState(() => {
             return { connecting: 1, currentConnecting: { id: id, x1: x1, y1: y1 } }
         })
@@ -66,15 +67,24 @@ export default class Workspace extends React.Component {
 
     onConnectingEnd = (id, x, y) => {
         console.log("end")
-        console.log(this.state.currentConnecting)
-        console.log(this.state.connecting)
-        console.log(id, x, y)
+        // console.log(this.state.currentConnecting)
+        // console.log(this.state.connecting)
+        // console.log(id, x, y)
         // console.log(this.state.currentConnecting === {})
         // console.log(this.state.currentConnecting.id === id)
         if (this.state.connecting === 0 || this.state.currentConnecting === {} || this.state.currentConnecting.id === id) {
             return
         }
-        console.log("ending...")
+        // console.log("ending...")
+
+        const id1 = this.state.currentConnecting.id;
+        
+        this.setState((state) => {
+            return {
+                config: [...state.config, {"from": id1, "to": id}]
+            }
+        })
+
         const x1 = this.state.currentConnecting.x1;
         const y1 = this.state.currentConnecting.y1;
         const x2 = x - 80;
@@ -84,7 +94,7 @@ export default class Workspace extends React.Component {
         const length = Math.sqrt(a * a + b * b);
         const angleDeg = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
         const lineId = this.incId()
-        console.log(x1, x2, a, b, length, angleDeg)
+        // console.log(x1, x2, a, b, length, angleDeg)
         this.setState((state) => {
             return {
                 lines: [...state.lines, { id: lineId, x: x1 + 55, y: y1, deg: angleDeg, length: length }],
@@ -92,11 +102,15 @@ export default class Workspace extends React.Component {
                 connecting: 0
             }
         })
-        console.log(this.state.lines)
+        // console.log(this.state.lines)
+
+        
+        
     }
 
     saveConfig = () => {
         console.log("save config")
+
         fetch("http://127.0.0.1:8000/save_config",
             {
                 method: 'POST',
@@ -104,7 +118,7 @@ export default class Workspace extends React.Component {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ "a": 1, "b": 2, "c": 3 })
+                body: JSON.stringify(this.state.config)
             }
         )
             .then(res => res.json())

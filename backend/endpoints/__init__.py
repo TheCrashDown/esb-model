@@ -33,5 +33,5 @@ def test():
 
 
 @api_router.post("/save_config")
-def save_config(config: dict):
+def save_config(config: list):
     return {"config": config}

@@ -22,12 +22,12 @@ const ServiceCard = (cardInfo) => {
     }
 
     function onIconClick(e) {
-        console.log("arrow clicked")
+        // console.log("arrow clicked")
         conStart()
     }
 
     function onCardClick(e) {
-        console.log("card clicked")
+        // console.log("card clicked")
         conEnd()
     }
 
