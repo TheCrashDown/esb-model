@@ -86,7 +86,7 @@ export default class Workspace extends React.Component {
         console.log(x1, x2, a, b, length, angleDeg)
         this.setState((state) => {
             return {
-                lines: [...state.lines, { id: lineId, x: x1 + 60, y: y1, deg: angleDeg, length: length }],
+                lines: [...state.lines, { id: lineId, x: x1 + 55, y: y1, deg: angleDeg, length: length }],
                 currentConnecting: {},
                 connecting: 0
             }
@@ -119,7 +119,17 @@ export default class Workspace extends React.Component {
 
 
                 <div className="lines">
-                    {this.state.lines.map(line => <div key={line.id} className="line" style={{ position: 'absolute', width: line.length, left: line.x, top: line.y, transform: "rotate(" + line.deg + "deg)" }} />)}
+                    {this.state.lines.map(line =>
+                        <div
+                            key={line.id}
+                            className="line"
+                            style={{
+                                position: 'absolute',
+                                width: line.length,
+                                left: line.x,
+                                top: line.y,
+                                transform: "rotate(" + line.deg + "deg)"
+                            }} />)}
 
                 </div>
 
