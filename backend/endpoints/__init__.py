@@ -8,10 +8,14 @@ from broker import brocker
 api_router = APIRouter()
 
 
-@api_router.get("/clients")
+@api_router.get("/get_clients")
 def get_clients():
+    clients = Client.select(
+        Client.id, Client.address, Client.name.alias("title")
+    ).where(Client.id << brocker.get_clients())
+
     return {
-        "clients": brocker.get_clients().dicts().get(),
+        "clients": [i for i in clients.dicts()] if clients.exists() else [],
     }
 
 
@@ -40,6 +44,6 @@ def save_config(config: list):
 
 @api_router.post("/connect")
 def connect_to_esb(address):
-    client = Client.create(address=address)
+    client = Client.create(address=address, name="test")
     brocker.add_client(client)
     return {"success": True, "address": address}

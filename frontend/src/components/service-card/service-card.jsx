@@ -22,11 +22,15 @@ const ServiceCard = (cardInfo) => {
     }
 
     function onIconClick(e) {
-        conStart()
+        if (conStart !== undefined) {
+            conStart()
+        }
     }
 
     function onCardClick(e) {
-        conEnd()
+        if (conEnd !== undefined) {
+            conEnd()
+        }
     }
 
     let positionOnWorkspace = {}

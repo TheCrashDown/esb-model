@@ -3,11 +3,19 @@ import React from 'react'
 import ServiceCard from '../service-card'
 import './service-list.css'
 
-const ServiceList = ({ data }) => {
+const ServiceList = ({ data, updateServices }) => {
 
     return (
         <div className='service-list'>
-            <h2 className='title'>Service List</h2>
+
+            <div className='header'>
+                <h2>Service List</h2>
+                <h3
+                    className="bi bi-arrow-counterclockwise refreshicon"
+                    onClick={updateServices}>
+                        
+                </h3>
+            </div>
             <ul >{
                 data.map((item) => {
                     const { id, title, address } = item
