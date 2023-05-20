@@ -22,17 +22,28 @@ class Broker:
         self.clients.append(client.id)
 
     def set_config(self, config):
-        pass
+        self.config = config
 
     def trig_message_handling(self):
         if not self.batch_mode or len(self.queue.messages) >= self.batch_size:
             self.process_messages()
 
     def process_messages(self):
-        # read config
-        # send to reciever
-        # delete from queue
-        pass
+        for message in self.queue.messages:
+            cfg_sender = [i for i in self.config if i["from"] == message.sender.address]
+            if len(cfg_sender) == 0:
+                return
+            for cfg in cfg_sender:
+                #
+                #
+                #
+                # TODO: send message to address cfg["to"]
+                #
+                #
+                #
+                pass
+            message.queue = None
+            message.save()
 
     def recieve_messages(self, address, message, format):
         client = Client.select().where(Client.address == address)

@@ -33,7 +33,7 @@ class Message(BaseModel):
     content = peewee.TextField()
     sender = peewee.ForeignKeyField(model=Client, to_field="id")
     format = peewee.TextField(null=False)
-    quere = peewee.ForeignKeyField(
+    queue = peewee.ForeignKeyField(
         model=Queue, to_field="id", backref="messages", null=True
     )
 

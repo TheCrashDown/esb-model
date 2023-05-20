@@ -34,4 +34,12 @@ def test():
 
 @api_router.post("/save_config")
 def save_config(config: list):
-    return {"config": config}
+    brocker.set_config(config)
+    return {"success": True, "config": config}
+
+
+@api_router.post("/connect")
+def connect_to_esb(address):
+    client = Client.create(address=address)
+    brocker.add_client(client)
+    return {"success": True, "address": address}
