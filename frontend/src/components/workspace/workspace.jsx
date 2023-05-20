@@ -57,31 +57,28 @@ export default class Workspace extends React.Component {
         }
     }
 
-    onConnectingStart = (id, x1, y1) => {
+    onConnectingStart = (id, x1, y1, address) => {
         console.log("start")
         // console.log(id, x1, y1)
         this.setState(() => {
-            return { connecting: 1, currentConnecting: { id: id, x1: x1, y1: y1 } }
+            return { connecting: 1, currentConnecting: { id: id, x1: x1, y1: y1, address: address } }
         })
     }
 
-    onConnectingEnd = (id, x, y) => {
+    onConnectingEnd = (id, x, y, address) => {
         console.log("end")
         // console.log(this.state.currentConnecting)
         // console.log(this.state.connecting)
         // console.log(id, x, y)
-        // console.log(this.state.currentConnecting === {})
-        // console.log(this.state.currentConnecting.id === id)
         if (this.state.connecting === 0 || this.state.currentConnecting === {} || this.state.currentConnecting.id === id) {
             return
         }
-        // console.log("ending...")
 
-        const id1 = this.state.currentConnecting.id;
-        
+        const address1 = this.state.currentConnecting.address;
+
         this.setState((state) => {
             return {
-                config: [...state.config, {"from": id1, "to": id}]
+                config: [...state.config, { "from": address1, "to": address }]
             }
         })
 
@@ -94,7 +91,6 @@ export default class Workspace extends React.Component {
         const length = Math.sqrt(a * a + b * b);
         const angleDeg = Math.atan2(y2 - y1, x2 - x1) * 180 / Math.PI;
         const lineId = this.incId()
-        // console.log(x1, x2, a, b, length, angleDeg)
         this.setState((state) => {
             return {
                 lines: [...state.lines, { id: lineId, x: x1 + 55, y: y1, deg: angleDeg, length: length }],
@@ -102,10 +98,7 @@ export default class Workspace extends React.Component {
                 connecting: 0
             }
         })
-        // console.log(this.state.lines)
 
-        
-        
     }
 
     saveConfig = () => {
@@ -144,8 +137,8 @@ export default class Workspace extends React.Component {
                             y={item.y}
                             fromWorkspace={true}
                             conStart={() => this.onConnectingStart(
-                                item.id, item.x, item.y)}
-                            conEnd={() => this.onConnectingEnd(item.id, item.x, item.y)}
+                                item.id, item.x, item.y, item.address)}
+                            conEnd={() => this.onConnectingEnd(item.id, item.x, item.y, item.address)}
                         />)}
                     </div>
 
