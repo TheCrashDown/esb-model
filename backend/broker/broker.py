@@ -1,4 +1,5 @@
 from models import Client, Message, Queue
+from .util import call
 
 
 class Broker:
@@ -28,20 +29,21 @@ class Broker:
         if not self.batch_mode or len(self.queue.messages) >= self.batch_size:
             self.process_messages()
 
+    def transform_message(self, message, format1, format2):
+        pass
+
     def process_messages(self):
         for message in self.queue.messages:
             cfg_sender = [i for i in self.config if i["from"] == message.sender.address]
             if len(cfg_sender) == 0:
                 return
             for cfg in cfg_sender:
-                #
-                #
-                #
-                # TODO: send message to address cfg["to"]
-                #
-                #
-                #
-                pass
+                base = "http://127.0.0.1:/"
+                response = call(base + cfg["to"] + "/handle", message.content)
+
+                # TODO: do what??
+                # transform message
+
             message.queue = None
             message.save()
 

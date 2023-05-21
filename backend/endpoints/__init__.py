@@ -43,7 +43,11 @@ def save_config(config: list):
 
 
 @api_router.post("/connect")
-def connect_to_esb(address):
-    client = Client.create(address=address, name="test")
+def connect_to_esb(data: dict):
+    client = Client.create(
+        address=data.get("address"),
+        name=data.get("name", ""),
+        format=data.get("format", "json"),
+    )
     brocker.add_client(client)
-    return {"success": True, "address": address}
+    return {"success": True, "data": data}

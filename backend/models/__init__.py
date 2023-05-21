@@ -10,6 +10,7 @@ class Client(BaseModel):
     id = peewee.AutoField(primary_key=True)
     address = peewee.TextField(null=False)
     name = peewee.TextField(null=True)
+    format = peewee.TextField(null=False)
 
 
 Client.create_table()
