@@ -19,23 +19,6 @@ def get_clients():
     }
 
 
-@api_router.get("/test")
-def test():
-    # c = Client.create(address="1.0.1.0")
-    # m = Message.create(content=datetime.now(), sender=c, format="json")
-
-    # brocker.add_client(c)
-    Client.create(address="1.0.1.1")
-    c = Client.select().where(Client.address == "1.0.1.1")
-
-    if not c.exists():
-        return "null222"
-
-    return {
-        "msg": c.get().address,
-    }
-
-
 @api_router.post("/save_config")
 def save_config(config: list):
     brocker.set_config(config)
@@ -49,5 +32,14 @@ def connect_to_esb(data: dict):
         name=data.get("name", ""),
         format=data.get("format", "json"),
     )
-    brocker.add_client(client)
-    return {"success": True, "data": data}
+    return brocker.add_client(client)
+
+@api_router.post("/send")
+def send_to_esb(data: dict):
+    print("send func called")
+    brocker.recieve_messages(
+        address=data.get("address"),
+        message=data.get("message"),
+        format=data.get("format", "json"),
+    )
+    return {"success": True}
