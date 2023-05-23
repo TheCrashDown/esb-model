@@ -7,14 +7,16 @@ from base import BaseClient, call, logger
 app1 = FastAPI()
 app2 = FastAPI()
 app3 = FastAPI()
+app4 = FastAPI()
 
 router1 = APIRouter()
 router2 = APIRouter()
 router3 = APIRouter()
+router4 = APIRouter()
 
 origins = ["*"]
 
-for app in [app1, app2, app3]:
+for app in [app1, app2, app3, app4]:
     app.add_middleware(
         CORSMiddleware,
         allow_origins=origins,
@@ -36,13 +38,15 @@ class Client1(BaseClient):
 
         logger.info(ESB_ADDRESS + "/send")
 
-        logger.info(json.dumps(
+        logger.info(
+            json.dumps(
                 {
                     "message": message,
                     "address": self.address,
                     "format": self.format,
                 }
-            ))
+            )
+        )
         return call(
             ESB_ADDRESS + "/send",
             json.dumps(
@@ -58,20 +62,30 @@ class Client1(BaseClient):
 class Client2(BaseClient):
     def handle_message(self, message):
         super().handle_message(message)
+        message["data"] = str(message["data"]) + " c2"
         return message
 
 
 class Client3(BaseClient):
     def handle_message(self, message):
         super().handle_message(message)
+        message["data"] = str(message["data"]) + " c3"
+        return message
+
+
+class Client4(BaseClient):
+    def handle_message(self, message):
+        super().handle_message(message)
+        message["data"] = str(message["data"]) + " c4"
         return message
 
 
 client1 = Client1(address="9001", name="server1", format="json")
 client2 = Client2(address="9002", name="server2", format="json")
 client3 = Client3(address="9003", name="server3", format="xml")
+client4 = Client4(address="9004", name="server4", format="xml")
 
-for client in [client1, client2, client3]:
+for client in [client1, client2, client3, client4]:
     client.connect(ESB_ADDRESS)
 
 
@@ -79,10 +93,12 @@ for client in [client1, client2, client3]:
 def handle1(data: dict):
     return client1.handle_message(data)
 
+
 @router1.post("/send")
 def send1(message: dict):
-    logger.info("message")
-    return client1.create_message(message)
+    for i in range(10):
+        client1.create_message({"data": f"{message.get('data')} {i}"})
+    return {"success": True}
 
 
 @router2.post("/handle")
@@ -95,6 +111,12 @@ def handle3(data: dict):
     return client3.handle_message(data)
 
 
+@router4.post("/handle")
+def handle4(data: dict):
+    return client4.handle_message(data)
+
+
 app1.include_router(router1, prefix="")
 app2.include_router(router2, prefix="")
 app3.include_router(router3, prefix="")
+app4.include_router(router4, prefix="")

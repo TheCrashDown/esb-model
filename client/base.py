@@ -47,3 +47,6 @@ class BaseClient:
     def handle_message(self, message: dict):
         logger.info(f"client {self.address} handling message: {message}")
         return message
+
+    def create_message(self, message):
+        return message

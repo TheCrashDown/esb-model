@@ -47,25 +47,29 @@ class Broker:
 
     def process_messages(self):
         print(f"process_messages")
+        print([i for i in self.queue.messages])
         for message in self.queue.messages:
+            print(
+                f"searching msg  {message.id} {message.content} {message.sender.address}"
+            )
             cfg_sender = [i for i in self.config if i["from"] == message.sender.address]
+            print(f"found configs {cfg_sender}")
             if len(cfg_sender) == 0:
-                return
+                continue
             for cfg in cfg_sender:
                 base = "http://host.docker.internal:"
                 print(f'pr send {base + cfg["to"] + "/handle"} {message.content}')
-                
+
                 response = call(
                     base + cfg["to"] + "/handle",
                     json.dumps({"data": message.content}),
                 )
-                
+
                 print(f"resp: {response}")
                 # TODO: not only json
                 message.queue = None
                 message.save()
                 self.recieve_messages(cfg["to"], response, "json")
-
 
     def recieve_messages(self, address, message, format):
         print(f"recieve_message {address} {message}")
@@ -81,5 +85,6 @@ class Broker:
         msg = Message.create(
             content=message.get("data"), sender=client, format=format, queue=self.queue
         )
+        msg.save()
 
         self.trig_message_handling()
