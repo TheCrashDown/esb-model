@@ -4,7 +4,7 @@ import './util.css'
 
 
 
-const Util = ({ saveConfig }) => {
+const Util = ({ saveConfig, clearWorkspace }) => {
 
 
     return (
@@ -12,7 +12,14 @@ const Util = ({ saveConfig }) => {
             <h2 className="title">Util</h2>
             <button
                 type="button"
-                className="btn btn-info button"
+                className="btn btn-warning buttonClear"
+                onClick={clearWorkspace}>
+                Clear
+            </button>
+
+            <button
+                type="button"
+                className="btn btn-success buttonSave"
                 onClick={saveConfig}>
                 Save config
             </button>

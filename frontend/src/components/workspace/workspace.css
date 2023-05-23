@@ -1,6 +1,13 @@
+
+
 .space {
     margin-left: 10px;
-    background-color: rgba(200, 121, 10, 0.353);
+    background-color: rgba(209, 192, 145, 0.336);
+    background-image: radial-gradient(#0000008a 1px, transparent 3%);
+    background-size: 40px 40px;
+    background-repeat: repeat;
+
+
     border: 1px solid rgba(0, 0, 0, 1);
 
     height: 70%;

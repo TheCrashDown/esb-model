@@ -118,6 +118,18 @@ export default class Workspace extends React.Component {
             .then(res => console.log(res));
     }
 
+    clearWorkspace = () => {
+        this.setState(() => {
+            return {
+                items: [],
+                lines: [],
+                connecting: 0,
+                currentConnecting: {},
+                config: []
+            }
+        })
+    }
+
     render() {
         return (
             <div className="all">
@@ -159,7 +171,7 @@ export default class Workspace extends React.Component {
                     </div>
 
                 </div>
-                <Util saveConfig={this.saveConfig} />
+                <Util saveConfig={this.saveConfig} clearWorkspace={this.clearWorkspace} />
             </div>
         )
     }

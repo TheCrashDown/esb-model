@@ -16,8 +16,14 @@
     margin: 10px;
 }
 
-.button {
+.buttonSave {
+    margin-top: 10px;
+    width: 120px;
+    border: 1px solid rgba(0, 0, 0, 1);
+}
+
+.buttonClear {
     margin-top: 20px;
     width: 120px;
-    border: 1px solid;
+    border: 1px solid rgba(0, 0, 0, 1);
 }
