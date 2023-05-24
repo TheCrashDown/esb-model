@@ -1,4 +1,5 @@
 import json
+import time
 from fastapi import FastAPI, APIRouter
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -62,14 +63,14 @@ class Client1(BaseClient):
 class Client2(BaseClient):
     def handle_message(self, message):
         super().handle_message(message)
-        message["data"] = str(message["data"]) + " c2"
+        message["data"] = str(message["data"]) + " message was handled by client 2"
         return message
 
 
 class Client3(BaseClient):
     def handle_message(self, message):
         super().handle_message(message)
-        message["data"] = str(message["data"]) + " c3"
+        message["data"] = str(message["data"]) + " message was handled by client 3"
         return message
 
 
@@ -96,13 +97,15 @@ def handle1(data: dict):
 
 @router1.post("/send")
 def send1(message: dict):
-    for i in range(10):
-        client1.create_message({"data": f"{message.get('data')} {i}"})
+    client1.create_message(message)
+    # for i in range(1):
+    #     client1.create_message({"data": f"{message.get('data')} {i}"})
     return {"success": True}
 
 
 @router2.post("/handle")
 def handle2(data: dict):
+    # time.sleep(1)
     return client2.handle_message(data)
 
 
