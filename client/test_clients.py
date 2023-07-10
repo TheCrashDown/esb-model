@@ -98,14 +98,11 @@ def handle1(data: dict):
 @router1.post("/send")
 def send1(message: dict):
     client1.create_message(message)
-    # for i in range(1):
-    #     client1.create_message({"data": f"{message.get('data')} {i}"})
     return {"success": True}
 
 
 @router2.post("/handle")
 def handle2(data: dict):
-    # time.sleep(1)
     return client2.handle_message(data)
 
 

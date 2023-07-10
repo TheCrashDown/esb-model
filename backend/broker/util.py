@@ -1,3 +1,5 @@
+"""Util functions for async messge sending"""
+
 import httpx
 import asyncio
 

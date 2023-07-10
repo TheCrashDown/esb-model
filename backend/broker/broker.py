@@ -4,6 +4,8 @@ from .util import call
 
 
 class Broker:
+    """Main backend class, implementing message sending between clients"""
+
     # ids of queued messages
     queue = None
     replic = None
@@ -19,9 +21,13 @@ class Broker:
         self.queue = Queue.create()
 
     def get_clients(self):
+        """Get list of connected clients"""
+
         return self.clients
 
     def add_client(self, client):
+        """Add new client to ESB"""
+
         clients = Client.select().where(Client.id << self.get_clients())
         addresses = [i["address"] for i in clients.dicts()] if clients.exists() else []
 
@@ -35,16 +41,24 @@ class Broker:
         return {"success": False, "error": "already connected"}
 
     def set_config(self, config):
+        """Set new config"""
+
         self.config = config
 
     def trig_message_handling(self):
+        """Trigger message processing, if conditions are met"""
+
         if not self.batch_mode or len(self.queue.messages) >= self.batch_size:
             self.process_messages()
 
     def transform_message(self, message, format1, format2):
+        """Message transformation between formats"""
+        # TODO: do message transformation
         pass
 
     def process_messages(self):
+        """Sending messages according to configuration"""
+
         for message in self.queue.messages:
             if message.id in self.already_handled:
                 continue
@@ -67,6 +81,8 @@ class Broker:
                 self.recieve_messages(cfg["to"], response, "json")
 
     def recieve_messages(self, address, message, format):
+        """Recieve message from clients"""
+
         client = Client.select().where(Client.address == address)
         if not client.exists():
             client = Client.create(address=address, name=address)
