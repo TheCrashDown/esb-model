@@ -34,9 +34,9 @@ def connect_to_esb(data: dict):
     )
     return brocker.add_client(client)
 
+
 @api_router.post("/send")
 def send_to_esb(data: dict):
-    print("send func called")
     brocker.recieve_messages(
         address=data.get("address"),
         message=data.get("message"),
